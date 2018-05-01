@@ -3,7 +3,7 @@
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{begateway}default-bootstrap>begateway_805eb29f08fa9ef80f83f0d39d0e2e4f'] = 'beGateway';
-$_MODULE['<{begateway}default-bootstrap>begateway_4fc695d77decbce8f416b13ee9a8e126'] = 'Приём оплаты по банковским картам';
+$_MODULE['<{begateway}default-bootstrap>begateway_4fc695d77decbce8f416b13ee9a8e126'] = 'Приём оплаты по банковским картам и другим платёжным системам';
 $_MODULE['<{begateway}default-bootstrap>begateway_fa214007826415a21a8456e3e09f999d'] = 'Вы уверены, что хотите удалить настройки?';
 $_MODULE['<{begateway}default-bootstrap>begateway_c5cd3814a1fe70e677d1e2f860113724'] = 'Id магазина обязателен';
 $_MODULE['<{begateway}default-bootstrap>begateway_edff97807c6c60dd9d6af4c13732a9a9'] = 'Ключ магазина обязателен';

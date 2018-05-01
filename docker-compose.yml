@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  prestashop:
+    image: prestashop/prestashop:1.7-7.0-apache
+    build: .
+    links:
+    - db:mysql
+    ports:
+      - 8080:80
+    volumes:
+      - /var/www/html
+      - ./begateway:/var/www/html/modules/begateway
+    restart: always
+    environment:
+      PS_DEV_MODE: 1
+      PS_INSTALL_AUTO: 1
+      PS_ERASE_DB: 1
+      PS_HANDLE_DYNAMIC_DOMAIN: 1
+      PS_COUNTRY: LV
+      DB_SERVER: db
+      PS_FOLDER_INSTALL: install2
+      ADMIN_PASSWD: admin
+      ADMIN_MAIL: 1@begateway.com
+
+  db:
+    image: mysql:5.6
+    restart: always
+    volumes:
+      - /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin

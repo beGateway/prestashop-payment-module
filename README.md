@@ -1,23 +1,23 @@
-## PrestaShop payment module
+## PrestaShop 1.7 payment module
 
 [Русская версия](#модуль-оплаты-prestashop)
 
 ### Install module
 
   * Backup your webstore and database
-  * Download [begateway.zip](https://github.com/beGateway/prestashop-payment-module/raw/master/begateway.zip)
+  * Download [begateway.zip](https://github.com/begateway/prestashop-payment-module/raw/master/begateway.zip)
   * Login to your PrestaShop admin area and select the _Modules_ menu
   * Click _Add a new module_
 
-![Add a new module](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-button.png)
+![Add a new module](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-button.png)
 
   * Upload the archive _begateway.zip_ via a module installer
 
-![Upload a new module](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-file.png)
+![Upload a new module](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-file.png)
 
   * Locate _beGateway_ in available modules and install it
 
-![Install module](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-install.png)
+![Install module](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-install.png)
 
 ### Module configuration
 
@@ -26,15 +26,13 @@ At the payment module configuration page:
   * Enter in fields _Shop Id_, _Shop secret key_, _Payment gateway domain_ and _Payment page domain_ values received from your payment processor.
   * Select a default transaction type: __Payment__ or __Authorization__
 
-![Configure module](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/config-module.png)
+![Configure module](https://github.com/begateway/prestashop-payment-module/raw/master/doc/config-module.png)
 
 ### You are done!
 
 ### Notes
 
-Tested and developed with PrestaShop 1.6
-
-Compatible with PrestaShop 1.5
+Tested and developed with PrestaShop 1.7
 
 ### Demo credentials
 
@@ -58,26 +56,26 @@ Use the test data to make a test payment:
 
 Issue pull requests or send feature requests.
 
-## Модуль оплаты PrestaShop
+## Модуль оплаты для PrestaShop 1.7
 
 [English version](#prestashop-payment-module)
 
 ### Установка плагина
 
   * Создайте резервную копию вашего магазина и базы данных
-  * Скачайте архив плагина [begateway.zip](https://github.com/beGateway/prestashop-payment-module/raw/master/begateway.zip)
+  * Скачайте архив плагина [begateway.zip](https://github.com/begateway/prestashop-payment-module/raw/master/begateway.zip)
   * Зайдите в зону администратора магазина и выберете меню _Модули_
   * Нажмите _Добавить модуль_
 
-![Добавить модуль](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-button-ru.png)
+![Добавить модуль](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-button-ru.png)
 
   * Загрузите модуль _begateway.zip_ через _ДОБАВИТЬ МОДУЛЬ_
 
-![Загрузить модуль](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-file-ru.png)
+![Загрузить модуль](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-file-ru.png)
 
   * Найдите модуль _beGateway_ в списке модулей и установите его
 
-![Установить модуль](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/add-module-install.png)
+![Установить модуль](https://github.com/begateway/prestashop-payment-module/raw/master/doc/add-module-install.png)
 
 ### Настройка магазина
 
@@ -86,15 +84,13 @@ Issue pull requests or send feature requests.
   * Введите в полях _Id магазина_, _Ключ магазина_, _Домен платежного шлюза_ и _Домен платежной страницы_ значения, полученные от вашей платежной компании
   * Выберете тип транзакции по умолчанию: __Payment__ or __Authorization__
 
-![Настройка модуля](https://github.com/beGateway/prestashop-payment-module/raw/master/doc/config-module.png)
+![Настройка модуля](https://github.com/begateway/prestashop-payment-module/raw/master/doc/config-module.png)
 
 ### Готово!
 
 ### Примечания
 
-Разработанно и протестированно с PrestaShop 1.6
-
-Совместимо с PrestaShop 1.5
+Разработанно и протестированно с PrestaShop 1.7
 
 ### Тестовые данные
 

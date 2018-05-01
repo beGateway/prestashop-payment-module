@@ -3,7 +3,7 @@
 global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{begateway}prestashop>begateway_805eb29f08fa9ef80f83f0d39d0e2e4f'] = 'beGateway';
-$_MODULE['<{begateway}prestashop>begateway_4fc695d77decbce8f416b13ee9a8e126'] = 'Accepts credit or debit cards';
+$_MODULE['<{begateway}prestashop>begateway_4fc695d77decbce8f416b13ee9a8e126'] = 'Accept payments with cards and alternative payment methods';
 $_MODULE['<{begateway}prestashop>begateway_fa214007826415a21a8456e3e09f999d'] = 'Are you sure you want to delete your details ?';
 $_MODULE['<{begateway}prestashop>begateway_c5cd3814a1fe70e677d1e2f860113724'] = 'Shop Id is required.';
 $_MODULE['<{begateway}prestashop>begateway_edff97807c6c60dd9d6af4c13732a9a9'] = 'Shop secret key is required.';
