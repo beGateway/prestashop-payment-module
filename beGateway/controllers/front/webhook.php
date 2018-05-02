@@ -89,9 +89,12 @@ class BegatewayWebhookModuleFrontController extends ModuleFrontController {
     }
 
     $status = $webhook->isSuccess() ? Configuration::get('PS_OS_PAYMENT') : Configuration::get('PS_OS_ERROR');
-    $order->setCurrentState($status);
 
-    $this->saveOrderTransactionData($webhook->getUid(), $webhook->getPaymentMethod(), $orderId);
+    if ($webhook->getResponse()->transaction->type == 'payment' ||
+        $webhook->getResponse()->transaction->type == 'capture') {
+      $order->setCurrentState($status);
+      $this->saveOrderTransactionData($webhook->getUid(), $webhook->getPaymentMethod(), $orderId);
+    }
 
     return 'OK';
   }

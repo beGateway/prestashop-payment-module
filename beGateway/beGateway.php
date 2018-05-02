@@ -479,10 +479,7 @@ class Begateway extends PaymentModule
     foreach ($payments as $payment => $paymentInfos) {
       if ($paymentInfos['isActive']) {
         $activePayments['begateway_' . $payment]             = array();
-        $activePayments['begateway_' . $payment]['cta_text'] = $this->l(
-          $paymentInfos['title'],
-          $this->name . '_' . $payment
-        );
+        $activePayments['begateway_' . $payment]['cta_text'] = $paymentInfos['title'];
         $activePayments['begateway_' . $payment]['logo']     = Media::getMediaPath(
           _PS_MODULE_DIR_ . $this->name . '/views/img/' . $this->name . '_' . $paymentInfos['id'] . '.png'
         );
