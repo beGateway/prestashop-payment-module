@@ -25,96 +25,102 @@
 
 require_once(_PS_MODULE_DIR_ . 'begateway/controllers/front/begateway.php'); // Base Controller
 
-class BegatewayWebhookModuleFrontController extends BegatewayModuleFrontController {
+class BegatewayWebhookModuleFrontController extends ModuleFrontController {
 
-  public $currentTemplate = 'module:begateway/views/templates/front/notify.tpl';
   public $contentOnly = true;
+  public $ssl = true;
+  public $display_column_left = false;
+  public $display_column_right = false;
+
+  /**
+  * Prevent displaying the maintenance page
+  *
+  * @return void
+  */
+  protected function displayMaintenancePage()
+  {
+  }
 
   public function initContent() {
+    die($this->executeWebhook());
+  }
+
+  public function executeWebhook() {
     $webhook = new \BeGateway\Webhook;
+    $this->module->init_begateway();
 
     $cart = new Cart((int)$webhook->getTrackingId());
-		$id_order = Order::getIdByCartId((int)$cart->id);
-		$order = new Order((int)$id_order);
 
-    if (!Validate::isLoadedObject($cart) || !Validate::isLoadedObject($order)) {
-      PrestaShopLogger::addLog(
-          'BeGateway::initContent::Webhook: Error to load cart data',
-          1,
-          null,
-          'BeGateway Module',
-          null,
-          true
-      );
-      $this->setMessage('Critical error to load order cart data');
-      return;
+    PrestaShopLogger::addLog(
+      'BeGateway::initContent::Webhook data: ' . var_export($webhook->getResponseArray(), true),
+      1,
+      null,
+      'BeGateway Module',
+      (int)$cart->id,
+      true
+    );
+
+    if (!Validate::isLoadedObject($cart))
+      return 'Error to load cart';
+
+		$orderId = (int)Order::getIdByCartId((int)$cart->id);
+		$order    = new Order($orderId);
+    $currency = new Currency((int)($cart->id_currency));
+
+    if (!Validate::isLoadedObject($order))
+      return 'Error to load order';
+
+    if (!$webhook->isAuthorized())
+      return 'Not authorized';
+
+    if (!$webhook->isSuccess() && !$webhook->isFailed())
+      return 'Not final status';
+
+    $amount = new \BeGateway\Money;
+
+    $currency_code = trim($currency->iso_code);
+
+    $amount->setCurrency($currency_code);
+    $amount->setAmount($cart->getOrderTotal(true, 3));
+
+    if ($webhook->getResponse()->transaction->currency != $currency_code ||
+        $webhook->getResponse()->transaction->amount != $amount->getCents()) {
+      return 'Incorrect paid amount';
     }
 
-    $module = new Begateway;
-    $module->init_begateway();
+    $status = $webhook->isSuccess() ? Configuration::get('PS_OS_PAYMENT') : Configuration::get('PS_OS_ERROR');
+    $order->setCurrentState($status);
 
-    if ($webhook->isAuthorized() &&
-        ($webhook->isSuccess() || $webhook->isFailed())
-    ) {
-      $status = $webhook->getStatus();
-      $currency = $webhook->getResponse()->transaction->currency;
-      $amount = new \BeGateway\Money;
-      $amount->setCurrency($Currency);
-      $amount->setCents($webhook->getResponse()->transaction->amount);
-      $transId = $webhook->getUid();
+    $this->saveOrderTransactionData($webhook->getUid(), $webhook->getPaymentMethod(), $orderId);
 
-      $customer = new Customer((int)$cart->id_customer);
+    return 'OK';
+  }
 
-      if (!Validate::isLoadedObject($customer)) {
-        PrestaShopLogger::addLog(
-            'BeGateway::initContent::Webhook: Error to load customer data',
-            1,
-            null,
-            'BeGateway Module',
-            (int)$cart->id,
-            true
-        );
-        $this->setMessage('Critical error to load customer');
-        return;
-      }
-
-      PrestaShopLogger::addLog(
-        'BeGateway::initContent::Webhook data: ' . var_export($webhook, true),
-        1,
-        null,
-        'BeGateway Module',
-        (int)$cart->id,
-        true
-      );
-
-      $payment_status = $webhook->isSuccess() ? Configuration::get('PS_OS_PAYMENT') : Configuration::get('PS_OS_ERROR');
-
-      $module->validateOrder(
-        (int)$id_order,
-        $payment_status,
-        $amount->getAmount(),
-        $module->displayName,
-        $webhook->getMessage(),
-        array('transaction_id' => $transId),
-        NULL,
-        false,
-        $customer->secure_key
-      );
-
-      $order_new = (empty($module->currentOrder)) ? $id_order : $module->currentOrder;
-
-      Db::getInstance()->Execute('
-        INSERT INTO '._DB_PREFIX_.'begateway_transaction (type, id_begateway_customer, id_cart, id_order,
-          uid, amount, status, currency, date_add)
-          VALUES ("'.$webhook->getResponse()->transaction->type.'", '.$cart->id_customer.', '.$id_order.', '.$order_new.', "'.$transId.'", '.$amount->getAmount().', "'.$status.'", "'.$currency.'", NOW())');
-
-      $this->setMessage('OK');;
+  /**
+     * Retrieves the OrderPayment object, created at validateOrder. And add transaction data.
+     *
+     * @param string $transactionId
+     * @param string $paymentMethod
+     * @param int    $orderId
+     *
+     * @return void
+     * @throws PrestaShopDatabaseException
+     * @throws PrestaShopException
+     */
+    private function saveOrderTransactionData($transactionId, $paymentMethod, $orderId)
+    {
+        // retrieve ALL payments of order.
+        // if no OrderPayment objects is retrieved in the collection, do nothing.
+        $order = new Order((int) $orderId);
+        $collection = OrderPayment::getByOrderReference($order->reference);
+        if (count($collection) > 0) {
+            $orderPayment = $collection[0];
+            // for older versions (1.5) , we check if it hasn't been filled yet.
+            if (!$orderPayment->transaction_id) {
+                $orderPayment->transaction_id = $transactionId;
+                $orderPayment->payment_method = $paymentMethod;
+                $orderPayment->update();
+            }
+        }
     }
-  }
-
-  public function setMessage($message, $statusCode = 200) {
-    $response = new Response($message, $statuscode);
-    $response->send();
-    die;
-  }
 }

@@ -148,32 +148,7 @@ class Begateway extends PaymentModule
       $this->registerHook('backOfficeHeader') &&
       $this->registerHook('payment') &&
       $this->registerHook('paymentOptions') &&
-      $this->registerHook('paymentReturn') &&
-      $this->installDb();
-  }
-
-  public function installDb()
-  {
-    return (
-      Db::getInstance()->Execute('CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'begateway_transaction` (
-        `id_begateway_transaction` int(11) NOT NULL AUTO_INCREMENT,
-        `type` enum(\'payment\',\'refund\',\'authorization\') NOT NULL,
-        `id_begateway_customer` int(10) unsigned NOT NULL,
-        `id_cart` int(10) unsigned NOT NULL,
-        `id_order` int(10) unsigned NOT NULL,
-        `uid` varchar(60) NOT NULL,
-        `amount` decimal(10,2) NOT NULL,
-        `status` enum(\'incomplete\',\'failed\',\'successful\',\'pending\') NOT NULL,
-        `currency` varchar(3) NOT NULL,
-        `id_refund` varchar(32) ,
-        `refund_amount` decimal(10,2),
-        `au_uid` varchar(60),
-        `token` varchar(100),
-        `date_add` datetime NOT NULL,
-        PRIMARY KEY (`id_begateway_transaction`),
-        KEY `idx_transaction` (`type`,`id_order`,`status`)
-        ) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8 AUTO_INCREMENT=1')
-		);
+      $this->registerHook('paymentReturn');
   }
 
   public function uninstall()
@@ -190,10 +165,10 @@ class Begateway extends PaymentModule
 
     $orderStateId = Configuration::get('BEGATEWAY_STATE_WAITING');
     if ($orderStateId) {
-        $orderState     = new OrderState();
-        $orderState->id = $orderStateId;
-        $orderState->delete();
-        unlink(_PS_IMG_DIR_ .'os/'.(int)$orderState->id.'.gif');
+      $orderState     = new OrderState();
+      $orderState->id = $orderStateId;
+      $orderState->delete();
+      unlink(_PS_IMG_DIR_ .'os/'.(int)$orderState->id.'.gif');
     }
 
     Configuration::deleteByName('BEGATEWAY_STATE_WAITING');
@@ -205,8 +180,7 @@ class Begateway extends PaymentModule
       Configuration::deleteByName('BEGATEWAY_TITLE_ERIP_'. $language['iso_code']);
     }
 
-    return Db::getInstance()->Execute('DROP TABLE IF EXISTS `'._DB_PREFIX_.'begateway_transaction`') &&
-      $this->unregisterHook('backOfficeHeader') &&
+    return $this->unregisterHook('backOfficeHeader') &&
       $this->unregisterHook('paymentOptions' ) &&
       $this->unregisterHook('paymentReturn') &&
       $this->unregisterHook('payment') &&
