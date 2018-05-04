@@ -32,6 +32,7 @@ class BegatewayModuleFrontController extends ModuleFrontController
   public $display_column_right = false;
   public $currentTemplate = 'module:begateway/views/templates/front/errorpage.tpl';
   public $page_name = 'checkout';
+  protected $_transaction;
 
   public function initHeader()
   {
@@ -120,36 +121,36 @@ class BegatewayModuleFrontController extends ModuleFrontController
 
     $phone = ($address->phone) ? $address->phone : $address->phone_mobile;
 
-    $transaction = new \BeGateway\GetPaymentToken;
+    $this->_transaction = new \BeGateway\GetPaymentToken;
 
-    $transaction->money->setCurrency($currency_code);
-    $transaction->money->setAmount($amount);
-    $transaction->setDescription($this->l('Order No. ').$cart->id);
-    $transaction->setTrackingId($cart->id);
-    $transaction->setLanguage($lang_iso_code);
-    $transaction->setNotificationUrl($callbackurl);
-    $transaction->setSuccessUrl($successurl);
-    $transaction->setDeclineUrl($failurl);
-    $transaction->setFailUrl($failurl);
+    $this->_transaction->money->setCurrency($currency_code);
+    $this->_transaction->money->setAmount($amount);
+    $this->_transaction->setDescription($this->l('Order No. ').$cart->id);
+    $this->_transaction->setTrackingId($cart->id);
+    $this->_transaction->setLanguage($lang_iso_code);
+    $this->_transaction->setNotificationUrl($callbackurl);
+    $this->_transaction->setSuccessUrl($successurl);
+    $this->_transaction->setDeclineUrl($failurl);
+    $this->_transaction->setFailUrl($failurl);
 
-    $transaction->customer->setFirstName($address->firstname);
-    $transaction->customer->setLastName($address->lastname);
-    $transaction->customer->setCountry($country);
-    $transaction->customer->setAddress($address->address1.' '.$address->address2);
-    $transaction->customer->setCity($address->city);
-    $transaction->customer->setZip($address->postcode);
-    $transaction->customer->setEmail($customer->email);
-    $transaction->customer->setPhone($phone);
-    $transaction->customer->setState($state_val);
+    $this->_transaction->customer->setFirstName($address->firstname);
+    $this->_transaction->customer->setLastName($address->lastname);
+    $this->_transaction->customer->setCountry($country);
+    $this->_transaction->customer->setAddress($address->address1.' '.$address->address2);
+    $this->_transaction->customer->setCity($address->city);
+    $this->_transaction->customer->setZip($address->postcode);
+    $this->_transaction->customer->setEmail($customer->email);
+    $this->_transaction->customer->setPhone($phone);
+    $this->_transaction->customer->setState($state_val);
 
-    $this->setPaymentMethod($transaction);
+    $this->setPaymentMethod();
 
     if (Configuration::get('BEGATEWAY_TEST_MODE')) {
-      $transaction->setTestMode();
+      $this->_transaction->setTestMode();
     }
 
     PrestaShopLogger::addLog(
-      'BeGateway::initContent::Token request data: ' . var_export($transaction, true),
+      'BeGateway::initContent::Token request data: ' . var_export($this->_transaction, true),
       1,
       null,
       'BeGateway Module',
@@ -159,7 +160,7 @@ class BegatewayModuleFrontController extends ModuleFrontController
 
     try {
       $this->module->init_begateway();
-      $response = $transaction->submit();
+      $response = $this->_transaction->submit();
       if (!$response->isSuccess()) {
         throw new \Exception($response->getMessage());
       }

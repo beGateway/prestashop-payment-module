@@ -32,13 +32,13 @@ class BegatewayEripModuleFrontController extends BeGatewayModuleFrontController
     parent::initContent();
   }
 
-  public function setPaymentMethod(&$transaction) {
-    $transaction->setPaymentTransactionType();
-    $transaction->addPaymentMethod(
+  public function setPaymentMethod() {
+    $this->_transaction->setPaymentTransactionType();
+    $this->_transaction->addPaymentMethod(
       new \BeGateway\PaymentMethod\Erip(
         array(
-          'order_id' => $transaction->getTrackingId(),
-          'account_number' => strval($transaction->getTrackingId())
+          'order_id' => $this->_transaction->getTrackingId(),
+          'account_number' => strval($this->_transaction->getTrackingId())
         )
       )
     );

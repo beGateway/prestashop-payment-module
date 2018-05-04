@@ -148,7 +148,7 @@ class Begateway extends PaymentModule
       $this->registerHook('backOfficeHeader') &&
       $this->registerHook('payment') &&
       $this->registerHook('paymentOptions') &&
-      $this->registerHook('paymentReturn');
+      $this->registerHook('displayPaymentReturn');
   }
 
   public function uninstall()
@@ -182,7 +182,7 @@ class Begateway extends PaymentModule
 
     return $this->unregisterHook('backOfficeHeader') &&
       $this->unregisterHook('paymentOptions' ) &&
-      $this->unregisterHook('paymentReturn') &&
+      $this->unregisterHook('displayPaymentReturn') &&
       $this->unregisterHook('payment') &&
       parent::uninstall();
   }
@@ -519,7 +519,7 @@ class Begateway extends PaymentModule
     }
   }
 
-  public function hookPaymentReturn($params)
+  public function hookDisplayPaymentReturn($params)
   {
     if ($this->active == false) {
         return false;

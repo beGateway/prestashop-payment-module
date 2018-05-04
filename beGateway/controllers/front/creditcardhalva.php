@@ -32,8 +32,8 @@ class BegatewayCreditcardhalvaModuleFrontController extends BeGatewayModuleFront
     parent::initContent('credit_card_halva');
   }
 
-  public function setPaymentMethod(&$transaction) {
-    $transaction->setPaymentTransactionType();
-    $transaction->addPaymentMethod(new \BeGateway\PaymentMethod\CreditCard);
+  public function setPaymentMethod() {
+    $this->_transaction->setPaymentTransactionType();
+    $this->_transaction->addPaymentMethod(new \BeGateway\PaymentMethod\CreditCardHalva);
   }
 }
