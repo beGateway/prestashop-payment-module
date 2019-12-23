@@ -23,7 +23,7 @@
 
 ## Notes
 
-Tested and developed with PrestaShop 1.7.3.1
+Tested and developed with PrestaShop 1.7.6.2
 
 ## Testing
 
@@ -75,7 +75,7 @@ Use the following test card to make failed test payment:
 
 ## Примечания
 
-Разработанно и протестировано с PrestaShop 1.7.3.1
+Разработанно и протестировано с PrestaShop 1.7.6.2
 
 ## Тестирование
 
