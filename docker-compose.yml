@@ -2,7 +2,6 @@ version: '3.1'
 
 services:
   prestashop:
-    image: prestashop/prestashop:1.7-7.0-apache
     build: .
     links:
     - db:mysql
@@ -24,7 +23,7 @@ services:
       ADMIN_MAIL: 1@begateway.com
 
   db:
-    image: mysql:5.6
+    image: mysql:5.7
     restart: always
     volumes:
       - /var/lib/mysql
