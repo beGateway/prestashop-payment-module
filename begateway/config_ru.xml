@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
-	<name>BeGateway</name>
+	<name>begateway</name>
 	<displayName><![CDATA[BeGateway]]></displayName>
-	<version><![CDATA[1.7.1]]></version>
+	<version><![CDATA[1.7.6]]></version>
 	<description><![CDATA[Приём онлайн-платежей]]></description>
-	<author><![CDATA[BeGateway]]></author>
+	<author><![CDATA[eComCharge]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Вы уверены, что хотите удалить настройки?]]></confirmUninstall>
 	<is_configurable>1</is_configurable>

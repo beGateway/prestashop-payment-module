@@ -50,7 +50,7 @@ class Begateway extends PaymentModule
   {
     $this->name = 'begateway';
     $this->tab = 'payments_gateways';
-    $this->version = '1.7.0';
+    $this->version = '1.7.6';
     $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
     $this->author = 'eComCharge';
     $this->controllers = array('validation');
@@ -451,9 +451,10 @@ class Begateway extends PaymentModule
         return array();
     }
 
-    if (false === Configuration::get('BEGATEWAY_ACTIVE_MODE', false)) {
+    if (false == Configuration::get('BEGATEWAY_ACTIVE_MODE', false)) {
         return array();
     }
+
     $this->smarty->assign('module_dir', $this->_path);
 
     $id_lang = $this->context->language->iso_code;
@@ -477,7 +478,7 @@ class Begateway extends PaymentModule
     );
     $activePayments = array();
     foreach ($payments as $payment => $paymentInfos) {
-      if ($paymentInfos['isActive']) {
+      if ($paymentInfos['isActive'] == 1) {
         $activePayments['begateway_' . $payment]             = array();
         $activePayments['begateway_' . $payment]['cta_text'] = $paymentInfos['title'];
         $activePayments['begateway_' . $payment]['logo']     = Media::getMediaPath(
@@ -493,7 +494,7 @@ class Begateway extends PaymentModule
     }
 
     $newOptions = array();
-    if ($activePayments) {
+    if (sizeof($activePayments) > 0) {
       foreach ($activePayments as $legacyOption) {
         if (false == $legacyOption) {
           continue;
@@ -505,7 +506,6 @@ class Begateway extends PaymentModule
           $newOptions[] = $option;
         }
       }
-
     return $newOptions;
     }
 
