@@ -33,12 +33,15 @@ class BegatewayCreditcardModuleFrontController extends BegatewayModuleFrontContr
   }
 
   public function setPaymentMethod() {
+    $this->setTransactionType();
+    $this->_transaction->addPaymentMethod(new \BeGateway\PaymentMethod\CreditCard);
+  }
+
+  public function setTransactionType() {
     if (Configuration::get('BEGATEWAY_SHOP_PAYTYPE') == 'authorization') {
       $this->_transaction->setAuthorizationTransactionType();
     } else {
       $this->_transaction->setPaymentTransactionType();
     }
-
-    $this->_transaction->addPaymentMethod(new \BeGateway\PaymentMethod\CreditCard);
   }
 }

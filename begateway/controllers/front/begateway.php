@@ -42,7 +42,7 @@ class BegatewayModuleFrontController extends ModuleFrontController
     $this->setTemplate($this->currentTemplate);
   }
 
-  public function initContent($method = null)
+  public function initContent()
   {
     parent::initContent();
 

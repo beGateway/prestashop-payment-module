@@ -23,17 +23,17 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 
-require_once(_PS_MODULE_DIR_ . 'begateway/controllers/front/begateway.php'); // Base Controller
+require_once(_PS_MODULE_DIR_ . 'begateway/controllers/front/creditcard.php'); // Base Controller
 
-class BegatewayCreditcardhalvaModuleFrontController extends BeGatewayModuleFrontController
+class BegatewayCreditcardhalvaModuleFrontController extends BegatewayCreditcardModuleFrontController
 {
   public function initContent()
   {
-    parent::initContent('credit_card_halva');
+    parent::initContent();
   }
 
   public function setPaymentMethod() {
-    $this->_transaction->setPaymentTransactionType();
+    $this->setTransactionType();
     $this->_transaction->addPaymentMethod(new \BeGateway\PaymentMethod\CreditCardHalva);
   }
 }
