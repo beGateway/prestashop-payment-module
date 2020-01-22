@@ -38,7 +38,7 @@ class BegatewayCreditcardModuleFrontController extends BegatewayModuleFrontContr
   }
 
   public function setTransactionType() {
-    if (Configuration::get('BEGATEWAY_SHOP_PAYTYPE') == 'authorization') {
+    if (Configuration::get('BEGATEWAY_TRANS_TYPE_CREDIT_CARD') == 'authorization') {
       $this->_transaction->setAuthorizationTransactionType();
     } else {
       $this->_transaction->setPaymentTransactionType();

@@ -75,8 +75,6 @@ class BegatewayModuleFrontController extends ModuleFrontController
     $country       = Country::getIsoById((int)$address->id_country);
     $lang_iso_code = $this->context->language->iso_code;;
 
-    $shop_ptype    = trim(Configuration::get('BEGATEWAY_SHOP_PAYTYPE'));
-
     $currency      = new Currency((int)($cart->id_currency));
     $currency_code = trim($currency->iso_code);
     $amount        = $cart->getOrderTotal(true, 3);

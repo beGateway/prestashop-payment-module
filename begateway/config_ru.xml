@@ -2,7 +2,7 @@
 <module>
 	<name>begateway</name>
 	<displayName><![CDATA[BeGateway]]></displayName>
-	<version><![CDATA[1.7.6]]></version>
+	<version><![CDATA[1.7.7]]></version>
 	<description><![CDATA[Приём онлайн-платежей]]></description>
 	<author><![CDATA[eComCharge]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
